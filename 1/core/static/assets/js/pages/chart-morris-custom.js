@@ -253,7 +253,7 @@ $(document).ready(function() {
     });
     // [ line-angle-chart ] end
     // [ line-smooth-chart ] start
-    Morris.Line({
+    var line = Morris.Line({
         element: 'morris-line-smooth-chart',
         data: [{
                 y: '2006',
@@ -332,7 +332,7 @@ $(document).ready(function() {
         formatter: function(x) {
             return "val : " + x
         }
-    });    
+    });
     // [ Donut-chart ] end
         }, 700);
 });
