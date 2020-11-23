@@ -167,7 +167,7 @@ def trigger_push_notifications():
     })
 
 
-@blueprint.route("/predict", methods=["POST"])
+@blueprint.route("/api/predict", methods=["POST"])
 def predict():
     json_data = request.get_json()
     _name = json_data.get('name')
