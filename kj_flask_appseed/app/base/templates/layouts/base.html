@@ -15,50 +15,76 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>
+      Flask Dashboard Argon - {% block title %} Open-Source Admin Panel {%
+      endblock %} | AppSeed
+    </title>
 
-  <title>
-    Flask Dashboard Argon - {% block title %} Open-Source Admin Panel {% endblock %} | AppSeed
-  </title>
+    <!-- Favicon - loaded as static -->
+    <link
+      rel="icon"
+      href="/static/assets/img/brand/logo.png"
+      type="image/png"
+    />
+    <!-- Fonts -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700"
+    />
+    <!-- Icons -->
+    <link
+      rel="stylesheet"
+      href="/static/assets/vendor/nucleo/css/nucleo.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="/static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+      type="text/css"
+    />
+    <!-- Page plugins -->
+    <!-- Argon CSS -->
+    <link
+      rel="stylesheet"
+      href="/static/assets/css/argon.css?v=1.2.0"
+      type="text/css"
+    />
 
-  <!-- Favicon - loaded as static -->
-  <link rel="icon" href="/static/assets/img/brand/logo.png" type="image/png">
-  <!-- Fonts -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
-  <!-- Icons -->
-  <link rel="stylesheet" href="/static/assets/vendor/nucleo/css/nucleo.css" type="text/css">
-  <link rel="stylesheet" href="/static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
-  <!-- Page plugins -->
-  <!-- Argon CSS -->
-  <link rel="stylesheet" href="/static/assets/css/argon.css?v=1.2.0" type="text/css">
+    <!-- Specific CSS goes HERE -->
+    {% block stylesheets %}{% endblock stylesheets %}
+  </head>
 
-  <!-- Specific CSS goes HERE -->
-  {% block stylesheets %}{% endblock stylesheets %}
+  <body class="">
+    {% include "includes/sidenav.html" %}
 
-</head>
+    <div class="main-content" id="panel">
+      {% include "includes/navigation.html" %} {% block content %}{% endblock
+      content %}
+    </div>
 
-<body class="">
+    {% include "includes/scripts.html" %}
 
-  {% include "includes/sidenav.html" %}
+    <!-- Specific JS goes HERE -->
+    {% block javascripts %}{% endblock javascripts %}
 
-  <div class="main-content" id="panel">
-
-    {% include "includes/navigation.html" %}
-
-    {% block content %}{% endblock content %}
-
-  </div>
-
-  {% include "includes/scripts.html" %}
-
-  <!-- Specific JS goes HERE -->
-  {% block javascripts %}{% endblock javascripts %}
-
-  <script src="/static/assets/js/argon.js?v=1.2.0"></script>
-
-</body>
-
+    <script src="/static/assets/js/argon.js?v=1.2.0"></script>
+    <script
+      type="text/javascript"
+      src="/static/register_service_worker.js"
+    ></script>
+    <script type="text/javascript">
+      registerServiceWorker(
+        "/static/service_worker.js",
+        "{{config['VAPID_PUBLIC_KEY']}}",
+        "/api/push-subscriptions"
+      );
+    </script>
+  </body>
 </html>
