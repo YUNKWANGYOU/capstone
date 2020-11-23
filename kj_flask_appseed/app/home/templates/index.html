@@ -1,0 +1,349 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header bg-primary pb-6">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <h6 class="h2 text-white d-inline-block mb-0">Status</h6>
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                  <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                  <li class="breadcrumb-item"><a href="#">Status</a></li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+          <!-- Card stats -->
+          <div class="row">
+            <div class="col-xl-4 col-md-6">
+              <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Heart Rate</h5>
+                      <span class="h2 font-weight-bold mb-0">70 beat / minute</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                        <img src="/static/assets/img/theme/heart.png" style = " width : 30px" alt="">
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+              <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Temperature</h5>
+                      <span class="h2 font-weight-bold mb-0">28 ℃</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                        <img src="/static/assets/img/theme/temperature.png" style = " width : 30px" alt="">
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+              <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Humidity</h5>
+                      <span class="h2 font-weight-bold mb-0">40 %</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                        <img src="/static/assets/img/theme/hum.png" style = " width : 35px" alt="">
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page content -->
+    <div class="container-fluid mt--6" >
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="card bg-default">
+            <div class="card-header bg-transparent">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h6 class="text-light text-uppercase ls-1 mb-1">Overview</h6>
+                  <h5 class="h3 text-white mb-0">Heart Beat</h5>
+                </div>
+                <div class="col">
+                  <ul class="nav nav-pills justify-content-end">
+                    <li class="nav-item mr-2 mr-md-0" data-toggle="chart" data-target="#chart-sales-dark" data-update='{"data":{"datasets":[{"data":[0, 20, 10, 30, 15, 40, 20, 60, 60]}]}}' data-prefix="$" data-suffix="k">
+                      <a href="#" class="nav-link py-2 px-3 active" data-toggle="tab">
+                        <span class="d-none d-md-block">1 hour</span>
+                        <span class="d-md-none">M</span>
+                      </a>
+                    </li>
+
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- Chart -->
+              <div class="chart">
+                <!-- Chart wrapper -->
+                <canvas id="chart-sales-dark" class="chart-canvas"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="container-fluid" >
+        <div class="row" >
+          <div class="col-md-12">
+            <div class="card">
+              <!-- Card header -->
+              <div class="card-header border-0">
+                <h3 class="mb-0">Users</h3>
+              </div>
+              <!-- Light table -->
+              <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col" class="sort" data-sort="name">Name</th>
+                      <th scope="col" class="sort" data-sort="budget">Heart Rate</th>
+                      <th scope="col" class="sort" data-sort="status">Temperature</th>
+                      <th scope="col">Humidity</th>
+                      <th scope="col" class="sort" data-sort="completion">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody class="list">
+                    <tr>
+                      <th scope="row">
+                        <div class="media align-items-center">
+                          <a href="#" class="avatar rounded-circle mr-3">
+                            <img alt="Image placeholder" src="/static/assets/img/theme/team-4.jpg">
+                          </a>
+                          <div class="media-body">
+                            <span class="name mb-0 text-sm">KyunJin</span>
+                          </div>
+                        </div>
+                      </th>
+                      <td class="budget">
+                        85 beat/minute
+                      </td>
+                      <td>
+                        <span class="badge badge-dot mr-4">
+                          <span class="status">28 ℃</span>
+                        </span>
+                      </td>
+                      <td>
+                        30 %
+                      </td>
+
+                      <td class="text-left">
+                        <div class="dropdown">
+                          <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v"></i>
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        <div class="media align-items-center">
+                          <a href="#" class="avatar rounded-circle mr-3">
+                            <img alt="Image placeholder" src="/static/assets/img/theme/team-1.jpg">
+                          </a>
+                          <div class="media-body">
+                            <span class="name mb-0 text-sm"> RaeYoung Kim </span>
+                          </div>
+                        </div>
+                      </th>
+                      <td class="budget">
+                        83 beat/minute
+                      </td>
+                      <td>
+                        <span class="badge badge-dot mr-4">
+
+                          <span class="status">30 ℃</span>
+                        </span>
+                      </td>
+                      <td>
+                        40 %
+                      </td>
+
+                      <td class="text-left">
+                        <div class="dropdown">
+                          <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v"></i>
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        <div class="media align-items-center">
+                          <a href="#" class="avatar rounded-circle mr-3">
+                            <img alt="Image placeholder" src="/static/assets/img/theme/team-2.jpg">
+                          </a>
+                          <div class="media-body">
+                            <span class="name mb-0 text-sm">SangHun Kim</span>
+                          </div>
+                        </div>
+                      </th>
+                      <td class="budget">
+                        78 beat/minute
+                      </td>
+                      <td>
+                        <span class="badge badge-dot mr-4">
+                          <span class="status">23 ℃</span>
+                        </span>
+                      </td>
+                      <td>
+                        35 %
+                      </td>
+
+                      <td class="text-left">
+                        <div class="dropdown">
+                          <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v"></i>
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        <div class="media align-items-center">
+                          <a href="#" class="avatar rounded-circle mr-3">
+                            <img alt="Image placeholder" src="/static/assets/img/theme/team-3.jpg">
+                          </a>
+                          <div class="media-body">
+                            <span class="name mb-0 text-sm">YeSeul Kong</span>
+                          </div>
+                        </div>
+                      </th>
+                      <td class="budget">
+                        73 beat/minute
+                      </td>
+                      <td>
+                        <span class="badge badge-dot mr-4">
+                          <span class="status">25 ℃</span>
+                        </span>
+                      </td>
+                      <td>
+                        31 %
+                      </td>
+
+                      <td class="text-left">
+                        <div class="dropdown">
+                          <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v"></i>
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        <div class="media align-items-center">
+                          <a href="#" class="avatar rounded-circle mr-3">
+                            <img alt="Image placeholder" src="/static/assets/img/theme/team-5.jpg">
+                          </a>
+                          <div class="media-body">
+                            <span class="name mb-0 text-sm">YunKwang You</span>
+                          </div>
+                        </div>
+                      </th>
+                      <td class="budget">
+                        71 beat/minute
+                      </td>
+                      <td>
+                        <span class="badge badge-dot mr-4">
+
+                          <span class="status">26 ℃</span>
+                        </span>
+                      </td>
+                      <td>
+                        28 %
+                      </td>
+
+                      <td class="text-left">
+                        <div class="dropdown">
+                          <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v"></i>
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- Card footer -->
+
+            </div>
+          </div>
+        </div>
+
+      {% include "includes/footer.html" %}
+
+    </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+  <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
+  <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
+
+{% endblock javascripts %}
