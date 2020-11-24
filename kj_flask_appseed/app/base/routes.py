@@ -19,6 +19,9 @@ from app.base.models import User, PushSubscription
 from app.base.util import verify_pass
 from app.base.webpush_handler import trigger_push_notifications_for_subscriptions
 
+import requests
+import json
+
 
 @blueprint.route('/')
 def route_default():
@@ -169,16 +172,28 @@ def trigger_push_notifications():
 
 @blueprint.route("/api/predict", methods=["POST"])
 def predict():
+    # get data
     json_data = request.get_json()
     _name = json_data.get('name')
     _email = json_data.get('email')
 
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    cursor.callproc('p_create_user', (_name, _email))
-    conn.commit()
+    # TODO: algorithm
+
+    # # mysql insert data
+    # conn = mysql.connect()
+    # cursor = conn.cursor()
+    # cursor.callproc('p_create_user', (_name, _email))
+    # conn.commit()
+
+    # push notifications
+    base_url = "http://127.0.0.1:5000"
+    push_url = "/admin-api/trigger-push-notifications"
+    url = base_url + push_url
+    response = requests.post(url=url, data=json.dumps(
+        {"title": _name, "body": _email}))
 
     return jsonify({
         "name": _name,
-        "email": _email
+        "email": _email,
+        "response": response.form['status']
     })
