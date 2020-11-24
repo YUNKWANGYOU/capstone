@@ -179,16 +179,16 @@ def predict():
 
     # TODO: algorithm
 
+    # push notifications
+    url = "http://127.0.0.1:5000/admin-api/trigger-push-notifications"
+    response = requests.post(
+        url=url, data=json.dumps({'title': _name, 'body': _email}))
+
     # # mysql insert data
     # conn = mysql.connect()
     # cursor = conn.cursor()
     # cursor.callproc('p_create_user', (_name, _email))
     # conn.commit()
-
-    # push notifications
-    url = "http://127.0.0.1:5000/admin-api/trigger-push-notifications"
-    response = requests.post(
-        url=url, data=json.dumps({'title': _name, 'body': _email}))
 
     return jsonify({
         "name": _name,
