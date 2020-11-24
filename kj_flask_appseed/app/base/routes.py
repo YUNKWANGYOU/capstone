@@ -157,7 +157,7 @@ def create_push_subscription():
 
 @blueprint.route("/admin-api/trigger-push-notifications", methods=["POST"])
 def trigger_push_notifications():
-    json_data = request.get_json()
+    json_data = request.get_json(force=True)
     subscriptions = PushSubscription.query.all()
     results = trigger_push_notifications_for_subscriptions(
         subscriptions,
@@ -186,14 +186,11 @@ def predict():
     # conn.commit()
 
     # push notifications
-    base_url = "http://127.0.0.1:5000"
-    push_url = "/admin-api/trigger-push-notifications"
-    url = base_url + push_url
-    response = requests.post(url=url, data=json.dumps(
-        {"title": _name, "body": _email}))
+    url = "http://127.0.0.1:5000/admin-api/trigger-push-notifications"
+    response = requests.post(
+        url=url, data=json.dumps({'title': _name, 'body': _email}))
 
     return jsonify({
         "name": _name,
-        "email": _email,
-        "response": response.form['status']
+        "email": _email
     })
