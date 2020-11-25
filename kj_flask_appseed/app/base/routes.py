@@ -198,13 +198,15 @@ def send_messages():
     })
 
 
-@blueprint.route('/api/predict-android', methods=['POST'])
+@blueprint.route('/api/predict/android', methods=['POST'])
 def predict_android():
+    # get data
     json_data = request.get_json()
     _time = json_data.get('time')
     _mac = json_data.get('mac')
     result = json_data.get('result')
 
+    # push notifications & send messages
     push_url = base_url + "/admin-api/trigger-push-notifications"
     requests.post(url=push_url, data=json.dumps(
         {"title": "응급상황이 발생했습니다.", "body": result}))
@@ -212,6 +214,7 @@ def predict_android():
     requests.post(url=send_url, data=json.dumps(
         {"title": "응급상황이 발생했습니다.", "body": result}))
 
+    # mysql insert emergency log
     conn = mysql.connect()
     curs = conn.cursor()
     curs.callproc('p_insert_emergency', (result, _time, _mac))
@@ -223,7 +226,7 @@ def predict_android():
     })
 
 
-@blueprint.route('/api/predict', methods=['POST'])
+@blueprint.route('/api/predict/server', methods=['POST'])
 def predict():
     # get data
     json_data = request.get_json()
@@ -244,7 +247,8 @@ def predict():
 
     # TODO: emergency predict algorithm
 
-    curs.execute("SELECT User_ID FROM User WHERE MAC_Address = _mac")
+    curs.execute(
+        "SELECT User_ID FROM User WHERE MAC_Address = {}}".format(_mac))
     row = curs.fetchone()
     user = row[0]
     result = "{}님의 집에 화재가 발생했습니다".format(user)
@@ -257,7 +261,7 @@ def predict():
         send_url = base_url + "/admin-api/send-messages"
         requests.post(url=send_url, data=json.dumps(
             {"title": "응급상황이 발생했습니다.", "body": result}))
-
+        # mysql insert emergency log
         curs.callproc('p_insert_emergency', (result, _time, _mac))
         conn.commit()
 
