@@ -134,7 +134,7 @@ def internal_error(error):
 
 
 # API
-@blueprint.route("/api/push-subscriptions", methods=["POST"])
+@blueprint.route('/api/push-subscriptions', methods=['POST'])
 def create_push_subscription():
     json_data = request.get_json()
     subscription = PushSubscription.query.filter_by(
@@ -155,7 +155,7 @@ def create_push_subscription():
     })
 
 
-@blueprint.route("/admin-api/trigger-push-notifications", methods=["POST"])
+@blueprint.route('/admin-api/trigger-push-notifications', methods=['POST'])
 def trigger_push_notifications():
     json_data = request.get_json(force=True)
     subscriptions = PushSubscription.query.all()
@@ -170,12 +170,13 @@ def trigger_push_notifications():
     })
 
 
-@blueprint.route("/api/predict", methods=["POST"])
+@blueprint.route('/api/predict', methods=['POST'])
 def predict():
     # get data
     json_data = request.get_json()
     _time = json_data.get('time')
     _mac = json_data.get('mac')
+    _temp = json_data.get('temp')
     _hum = json_data.get('hum')
     _bio = json_data.get('bio')
     _pir = json_data.get('pir')
@@ -183,19 +184,30 @@ def predict():
     _fire = json_data.get('fire')
     _p_btn = json_data.get('p_btn')
 
-    # TODO: algorithm
+    emergency = False
+
+    # TODO: emergency predict algorithm
+    result = "fire"
 
     # push notifications
-    url = "http://127.0.0.1:5000/admin-api/trigger-push-notifications"
-    requests.post(url=url, data=json.dumps({'title': "1차 응급상황", 'body': "종류"}))
+    base_url = "http://127.0.0.1:5000"
+    api_url = "/admin-api/trigger-push-notifications"
+    url = base_url + api_url
+    requests.post(url=url, data=json.dumps(
+        {"title": "1차 응급상황", "body": result}))
 
     # mysql insert data
     # conn = mysql.connect()
     # cursor = conn.cursor()
-    # cursor.callproc('p_insert_data', (_time, _mac, _hum, _bio, _pir, _door, _fire, ))
+    # cursor.callproc('p_insert_data', (_time, _mac, _temp,
+    #                                   _hum, _bio, _pir, _door, _fire, _p_btn))
     # conn.commit()
+    #
+    # if emergency:
+    #     cursor.callproc('p_insert_emergency', (result, _mac))
+    #     conn.commit()
 
     return jsonify({
         "status": "success",
-        "result": _mac
+        "result": result
     })
