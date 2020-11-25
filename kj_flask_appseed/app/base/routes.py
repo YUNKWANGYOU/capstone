@@ -181,7 +181,7 @@ def predict():
 
     # push notifications
     url = "http://127.0.0.1:5000/admin-api/trigger-push-notifications"
-    response = requests.post(
+    requests.post(
         url=url, data=json.dumps({'title': _name, 'body': _email}))
 
     # # mysql insert data
