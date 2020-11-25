@@ -174,23 +174,28 @@ def trigger_push_notifications():
 def predict():
     # get data
     json_data = request.get_json()
-    _name = json_data.get('name')
-    _email = json_data.get('email')
+    _time = json_data.get('time')
+    _mac = json_data.get('mac')
+    _hum = json_data.get('hum')
+    _bio = json_data.get('bio')
+    _pir = json_data.get('pir')
+    _door = json_data.get('door')
+    _fire = json_data.get('fire')
+    _p_btn = json_data.get('p_btn')
 
     # TODO: algorithm
 
     # push notifications
     url = "http://127.0.0.1:5000/admin-api/trigger-push-notifications"
-    response = requests.post(
-        url=url, data=json.dumps({'title': _name, 'body': _email}))
+    requests.post(url=url, data=json.dumps({'title': "1차 응급상황", 'body': "종류"}))
 
-    # # mysql insert data
+    # mysql insert data
     # conn = mysql.connect()
     # cursor = conn.cursor()
-    # cursor.callproc('p_create_user', (_name, _email))
+    # cursor.callproc('p_insert_data', (_time, _mac, _hum, _bio, _pir, _door, _fire, ))
     # conn.commit()
 
     return jsonify({
-        "name": _name,
-        "email": _email
+        "status": "success",
+        "result": _mac
     })
