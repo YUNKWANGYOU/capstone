@@ -146,6 +146,7 @@ def create_push_subscription():
         )
         db.session.add(subscription)
         db.session.commit()
+
     return jsonify({
         "status": "success",
         "result": {
@@ -164,6 +165,7 @@ def trigger_push_notifications():
         json_data.get('title'),
         json_data.get('body')
     )
+
     return jsonify({
         "status": "success",
         "result": results
@@ -194,7 +196,7 @@ def predict():
     api_url = "/admin-api/trigger-push-notifications"
     url = base_url + api_url
     requests.post(url=url, data=json.dumps(
-        {"title": "1차 응급상황", "body": result}))
+        {"title": "응급상황", "body": result}))
 
     # mysql insert data
     # conn = mysql.connect()
