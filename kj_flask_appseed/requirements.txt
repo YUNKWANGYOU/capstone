@@ -8,3 +8,4 @@ email_validator
 python-decouple
 gunicorn
 pywebpush
+twilio

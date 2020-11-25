@@ -4,6 +4,7 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from flask import jsonify, render_template, redirect, request, url_for
+from flask import current_app
 from flask_login import (
     current_user,
     login_required,
@@ -19,6 +20,7 @@ from app.base.models import User, PushSubscription
 from app.base.util import verify_pass
 from app.base.webpush_handler import trigger_push_notifications_for_subscriptions
 
+from twilio.rest import Client
 import requests
 import json
 
@@ -134,7 +136,7 @@ def internal_error(error):
 
 
 # API
-@blueprint.route('/api/push-subscriptions', methods=['POST'])
+@blueprint.route('/admin-api/push-subscriptions', methods=['POST'])
 def create_push_subscription():
     json_data = request.get_json()
     subscription = PushSubscription.query.filter_by(
@@ -172,6 +174,26 @@ def trigger_push_notifications():
     })
 
 
+@blueprint.route('/admin-api/send-messages', method=['POST'])
+def send_messages():
+    account_sid = current_app.config["TWILIO_ACCOUNT_SID"]
+    auth_token = current_app.config["TWILIO_AUTH_TOKEN"]
+    client = Client(account_sid, auth_token)
+
+    json_data = request.get_json(force=True)
+    to = '+821024171489'
+    description = json_data.get('title') + ' ' + json_data.get('body')
+    message = client.messages.create(
+        body=description,
+        from_='+12028835740',
+        to=to
+    )
+
+    return jsonify({
+        "status": "success"
+    })
+
+
 @blueprint.route('/api/predict', methods=['POST'])
 def predict():
     # get data
@@ -189,25 +211,33 @@ def predict():
     emergency = False
 
     # TODO: emergency predict algorithm
-    result = "fire"
+    # result
+    result = "{}님의 집에 화재가 발생했습니다".format("공예슬")
 
     # push notifications
-    base_url = "http://127.0.0.1:5000"
-    api_url = "/admin-api/trigger-push-notifications"
-    url = base_url + api_url
-    requests.post(url=url, data=json.dumps(
-        {"title": "응급상황", "body": result}))
+    if emergency:
+        base_url = "http://127.0.0.1:5000"
+
+        push_url = base_url + "/admin-api/trigger-push-notifications"
+        requests.post(url=push_url, data=json.dumps(
+            {"title": "응급상황이 발생했습니다.", "body": result}))
+
+        message_url = base_url + "/admin-api/send-messages"
+        requests.post(url=push_url, data=json.dumps(
+            {"title": "응급상황이 발생했습니다.", "body": result}))
 
     # mysql insert data
     # conn = mysql.connect()
-    # cursor = conn.cursor()
-    # cursor.callproc('p_insert_data', (_time, _mac, _temp,
+    # curs = conn.cursor()
+    # curs.callproc('p_insert_data', (_time, _mac, _temp,
     #                                   _hum, _bio, _pir, _door, _fire, _p_btn))
     # conn.commit()
-    #
+
     # if emergency:
-    #     cursor.callproc('p_insert_emergency', (result, _mac))
+    #     curs.callproc('p_insert_emergency', (result, _mac))
     #     conn.commit()
+
+    # conn.close()
 
     return jsonify({
         "status": "success",
