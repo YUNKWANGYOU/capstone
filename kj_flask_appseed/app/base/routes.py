@@ -210,35 +210,36 @@ def predict():
     _fire = json_data.get('fire')
     _p_btn = json_data.get('p_btn')
 
-    emergency = True
+    # conn = mysql.connect()
+    # curs = conn.cursor()
+
+    emergency = False
 
     # TODO: emergency predict algorithm
 
+    # curs.execute("SELECT User_ID FROM User WHERE MAC_Address = _mac")
+    # row = curs.fetchone()
+    # user = row[0]
     user = "OOO"
     result = "{}님의 집에 화재가 발생했습니다".format(user)
 
     # push notifications & send messages
     if emergency:
         base_url = "http://127.0.0.1:5000"
-
         push_url = base_url + "/admin-api/trigger-push-notifications"
         requests.post(url=push_url, data=json.dumps(
             {"title": "응급상황이 발생했습니다.", "body": result}))
-
         send_url = base_url + "/admin-api/send-messages"
         requests.post(url=send_url, data=json.dumps(
             {"title": "응급상황이 발생했습니다.", "body": result}))
 
+        # curs.callproc('p_insert_emergency', (result, _time, _mac))
+        # conn.commit()
+
     # mysql insert data
-    # conn = mysql.connect()
-    # curs = conn.cursor()
     # curs.callproc('p_insert_data', (_time, _mac, _temp,
     #                                   _hum, _bio, _pir, _door, _fire, _p_btn))
     # conn.commit()
-
-    # if emergency:
-    #     curs.callproc('p_insert_emergency', (result, _mac))
-    #     conn.commit()
 
     # conn.close()
 
