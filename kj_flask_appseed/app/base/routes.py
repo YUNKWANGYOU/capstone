@@ -180,12 +180,14 @@ def send_messages():
     auth_token = current_app.config["TWILIO_AUTH_TOKEN"]
     client = Client(account_sid, auth_token)
 
+    from_ = current_app.config["TWILIO_FROM"]
+    to = current_app.config["TWILIO_TO"]
+
     json_data = request.get_json(force=True)
-    to = '+821024171489'
     description = json_data.get('title') + '\n' + json_data.get('body')
     message = client.messages.create(
         body=description,
-        from_='+12028835740',
+        from_=from_,
         to=to
     )
 
