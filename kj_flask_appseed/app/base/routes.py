@@ -174,7 +174,7 @@ def trigger_push_notifications():
     })
 
 
-@blueprint.route('/admin-api/send-messages', method=['POST'])
+@blueprint.route('/admin-api/send-messages', methods=['POST'])
 def send_messages():
     account_sid = current_app.config["TWILIO_ACCOUNT_SID"]
     auth_token = current_app.config["TWILIO_AUTH_TOKEN"]
@@ -182,7 +182,7 @@ def send_messages():
 
     json_data = request.get_json(force=True)
     to = '+821024171489'
-    description = json_data.get('title') + ' ' + json_data.get('body')
+    description = json_data.get('title') + '\n' + json_data.get('body')
     message = client.messages.create(
         body=description,
         from_='+12028835740',
@@ -208,13 +208,14 @@ def predict():
     _fire = json_data.get('fire')
     _p_btn = json_data.get('p_btn')
 
-    emergency = False
+    emergency = True
 
     # TODO: emergency predict algorithm
-    # result
-    result = "{}님의 집에 화재가 발생했습니다".format("공예슬")
 
-    # push notifications
+    user = "OOO"
+    result = "{}님의 집에 화재가 발생했습니다".format(user)
+
+    # push notifications & send messages
     if emergency:
         base_url = "http://127.0.0.1:5000"
 
@@ -222,8 +223,8 @@ def predict():
         requests.post(url=push_url, data=json.dumps(
             {"title": "응급상황이 발생했습니다.", "body": result}))
 
-        message_url = base_url + "/admin-api/send-messages"
-        requests.post(url=push_url, data=json.dumps(
+        send_url = base_url + "/admin-api/send-messages"
+        requests.post(url=send_url, data=json.dumps(
             {"title": "응급상황이 발생했습니다.", "body": result}))
 
     # mysql insert data
