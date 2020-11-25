@@ -24,6 +24,8 @@ from twilio.rest import Client
 import requests
 import json
 
+base_url = "http://127.0.0.1:5000"
+
 
 @blueprint.route('/')
 def route_default():
@@ -196,6 +198,31 @@ def send_messages():
     })
 
 
+@blueprint.route('/api/predict-android', methods=['POST'])
+def predict_android():
+    json_data = request.get_json()
+    _time = json_data.get('time')
+    _mac = json_data.get('mac')
+    result = json_data.get('result')
+
+    push_url = base_url + "/admin-api/trigger-push-notifications"
+    requests.post(url=push_url, data=json.dumps(
+        {"title": "응급상황이 발생했습니다.", "body": result}))
+    send_url = base_url + "/admin-api/send-messages"
+    requests.post(url=send_url, data=json.dumps(
+        {"title": "응급상황이 발생했습니다.", "body": result}))
+
+    conn = mysql.connect()
+    curs = conn.cursor()
+    curs.callproc('p_insert_emergency', (result, _time, _mac))
+    conn.commit()
+    conn.close()
+
+    return jsonify({
+        "status": "success"
+    })
+
+
 @blueprint.route('/api/predict', methods=['POST'])
 def predict():
     # get data
@@ -210,22 +237,20 @@ def predict():
     _fire = json_data.get('fire')
     _p_btn = json_data.get('p_btn')
 
-    # conn = mysql.connect()
-    # curs = conn.cursor()
+    conn = mysql.connect()
+    curs = conn.cursor()
 
     emergency = False
 
     # TODO: emergency predict algorithm
 
-    # curs.execute("SELECT User_ID FROM User WHERE MAC_Address = _mac")
-    # row = curs.fetchone()
-    # user = row[0]
-    user = "OOO"
+    curs.execute("SELECT User_ID FROM User WHERE MAC_Address = _mac")
+    row = curs.fetchone()
+    user = row[0]
     result = "{}님의 집에 화재가 발생했습니다".format(user)
 
     # push notifications & send messages
     if emergency:
-        base_url = "http://127.0.0.1:5000"
         push_url = base_url + "/admin-api/trigger-push-notifications"
         requests.post(url=push_url, data=json.dumps(
             {"title": "응급상황이 발생했습니다.", "body": result}))
@@ -233,15 +258,14 @@ def predict():
         requests.post(url=send_url, data=json.dumps(
             {"title": "응급상황이 발생했습니다.", "body": result}))
 
-        # curs.callproc('p_insert_emergency', (result, _time, _mac))
-        # conn.commit()
+        curs.callproc('p_insert_emergency', (result, _time, _mac))
+        conn.commit()
 
     # mysql insert data
-    # curs.callproc('p_insert_data', (_time, _mac, _temp,
-    #                                   _hum, _bio, _pir, _door, _fire, _p_btn))
-    # conn.commit()
-
-    # conn.close()
+    curs.callproc('p_insert_data', (_time, _mac, _temp,
+                                    _hum, _bio, _pir, _door, _fire, _p_btn))
+    conn.commit()
+    conn.close()
 
     return jsonify({
         "status": "success",
