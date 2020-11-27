@@ -198,36 +198,8 @@ def send_messages():
     })
 
 
-@blueprint.route('/api/predict/android', methods=['POST'])
-def predict_android():
-    # get data
-    json_data = request.get_json()
-    _time = json_data.get('time')
-    _mac = json_data.get('mac')
-    result = json_data.get('result')
-
-    # push notifications & send messages
-    push_url = base_url + "/admin-api/trigger-push-notifications"
-    requests.post(url=push_url, data=json.dumps(
-        {"title": "응급상황이 발생했습니다.", "body": result}))
-    send_url = base_url + "/admin-api/send-messages"
-    requests.post(url=send_url, data=json.dumps(
-        {"title": "응급상황이 발생했습니다.", "body": result}))
-
-    # mysql insert emergency log
-    conn = mysql.connect()
-    curs = conn.cursor()
-    curs.callproc('p_insert_emergency', (result, _time, _mac))
-    conn.commit()
-    conn.close()
-
-    return jsonify({
-        "status": "success"
-    })
-
-
-@blueprint.route('/api/predict/server', methods=['POST'])
-def predict():
+@blueprint.route('/api/emergency/predict/server', methods=['POST'])
+def predict_server():
     # get data
     json_data = request.get_json()
     _time = json_data.get('time')
@@ -242,7 +214,7 @@ def predict():
 
     # conn = mysql.connect()
     # curs = conn.cursor()
-
+    result = "Normal"
     emergency = True
 
     # TODO: emergency predict algorithm
@@ -252,18 +224,19 @@ def predict():
     # row = curs.fetchone()
     # user = row[0]
     user = "공예슬"
-    result = "{}님의 집에 고양이가...".format(user)
-
+    body = "{}님의 집에 고양이가...".format(user)
     # push notifications & send messages
     if emergency:
+        result = "Emergency"
         push_url = base_url + "/admin-api/trigger-push-notifications"
         requests.post(url=push_url, data=json.dumps(
-            {"title": "응급상황이 발생했습니다.", "body": result}))
-        send_url = base_url + "/admin-api/send-messages"
-        requests.post(url=send_url, data=json.dumps(
-            {"title": "응급상황이 발생했습니다.", "body": result}))
+            {"title": "경고: 응급상황이 발생했습니다.", "body": body}))
+        # send_url = base_url + "/admin-api/send-messages"
+        # requests.post(url=send_url, data=json.dumps(
+        #     {"title": "경고: 응급상황이 발생했습니다.", "body": body}))
+
         # mysql insert emergency log
-        # curs.callproc('p_insert_emergency', (result, _time, _mac))
+        # curs.callproc('p_insert_emergency', (body, _time, _mac))
         # conn.commit()
 
     # mysql insert data
@@ -275,4 +248,62 @@ def predict():
     return jsonify({
         "status": "success",
         "result": result
+    })
+
+
+@blueprint.route('/api/emergency/predict/android', methods=['POST'])
+def predict_android():
+    # get data
+    json_data = request.get_json()
+    _time = json_data.get('time')
+    _mac = json_data.get('mac')
+    result = json_data.get('result')
+
+    # push notifications & send messages
+    push_url = base_url + "/admin-api/trigger-push-notifications"
+    requests.post(url=push_url, data=json.dumps(
+        {"title": "경고: 응급상황이 발생했습니다.", "body": result}))
+    # send_url = base_url + "/admin-api/send-messages"
+    # requests.post(url=send_url, data=json.dumps(
+    #     {"title": "경고: 응급상황이 발생했습니다.", "body": result}))
+
+    # mysql insert emergency log
+    conn = mysql.connect()
+    curs = conn.cursor()
+    curs.callproc('p_insert_emergency', (result, _time, _mac))
+    conn.commit()
+    conn.close()
+
+    return jsonify({
+        "status": "success"
+    })
+
+
+@blueprint.route('/api/emergency/decision', methods=['POST'])
+def emergency_decision():
+    # get data
+    json_data = request.get_json()
+    _time = json_data.get('time')
+    _mac = json_data.get('mac')
+    result = json_data.get('result')
+
+    if result == "Confirm":
+        # 119 부르기
+        # push notifications & send messages
+        push_url = base_url + "/admin-api/trigger-push-notifications"
+        requests.post(url=push_url, data=json.dumps(
+            {"title": "비상: 응급상황이 발생했습니다.", "body": result}))
+        send_url = base_url + "/admin-api/send-messages"
+        requests.post(url=send_url, data=json.dumps(
+            {"title": "비상: 응급상황이 발생했습니다.", "body": result}))
+
+        # mysql insert emergency log
+        conn = mysql.connect()
+        curs = conn.cursor()
+        curs.callproc('p_insert_emergency', (result, _time, _mac))
+        conn.commit()
+        conn.close()
+
+    return jsonify({
+        "status": "success"
     })
