@@ -24,7 +24,7 @@ from twilio.rest import Client
 import requests
 import json
 
-base_url = "http://127.0.0.1:5000"
+base_url = "http://127.0.0.1:10027"
 
 
 @blueprint.route('/')
@@ -240,18 +240,19 @@ def predict():
     _fire = json_data.get('fire')
     _p_btn = json_data.get('p_btn')
 
-    conn = mysql.connect()
-    curs = conn.cursor()
+    # conn = mysql.connect()
+    # curs = conn.cursor()
 
-    emergency = False
+    emergency = True
 
     # TODO: emergency predict algorithm
 
-    curs.execute(
-        "SELECT User_ID FROM User WHERE MAC_Address = {}}".format(_mac))
-    row = curs.fetchone()
-    user = row[0]
-    result = "{}님의 집에 화재가 발생했습니다".format(user)
+    # curs.execute(
+    #     "SELECT User_ID FROM User WHERE MAC_Address = {}}".format(_mac))
+    # row = curs.fetchone()
+    # user = row[0]
+    user = "공예슬"
+    result = "{}님의 집에 고양이가...".format(user)
 
     # push notifications & send messages
     if emergency:
@@ -262,14 +263,14 @@ def predict():
         requests.post(url=send_url, data=json.dumps(
             {"title": "응급상황이 발생했습니다.", "body": result}))
         # mysql insert emergency log
-        curs.callproc('p_insert_emergency', (result, _time, _mac))
-        conn.commit()
+        # curs.callproc('p_insert_emergency', (result, _time, _mac))
+        # conn.commit()
 
     # mysql insert data
-    curs.callproc('p_insert_data', (_time, _mac, _temp,
-                                    _hum, _bio, _pir, _door, _fire, _p_btn))
-    conn.commit()
-    conn.close()
+    # curs.callproc('p_insert_data', (_time, _mac, _temp,
+    #                                 _hum, _bio, _pir, _door, _fire, _p_btn))
+    # conn.commit()
+    # conn.close()
 
     return jsonify({
         "status": "success",
