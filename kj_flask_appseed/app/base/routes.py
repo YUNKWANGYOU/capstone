@@ -215,9 +215,11 @@ def predict_server():
     conn = mysql.connect()
     curs = conn.cursor()
     result = "Normal"
-    emergency = True
+    emergency = False
 
     # TODO: emergency predict algorithm
+    result = "Emergency"
+    emergency = True
 
     curs.execute(
         "SELECT User_ID FROM User WHERE MAC_Address = {}}".format(_mac))
@@ -226,7 +228,6 @@ def predict_server():
     body = "{}님의 집에 고양이가...".format(user)
     # push notifications & send messages
     if emergency:
-        result = "Emergency"
         push_url = base_url + "/admin-api/trigger-push-notifications"
         requests.post(url=push_url, data=json.dumps(
             {"title": "경고: 응급상황이 발생했습니다.", "body": body}))
@@ -299,4 +300,5 @@ def emergency_decision():
 
     return jsonify({
         "status": "success"
+        "result"
     })
