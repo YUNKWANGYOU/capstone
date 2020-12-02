@@ -7,7 +7,7 @@ var ctx = document.getElementById("myAreaChart");
 var myLineChart = new Chart(ctx, {
   type: 'line',
   data: {
-    labels: ["-50 min","-40 min","-30 min","-20 min","-10 min","Present"],
+    labels: ["-50 sec","-40 sec","-30 sec","-20 sec","-10 sec","Present"],
     datasets: [{
       label: "Sessions",
       lineTension: 0.3,
@@ -20,7 +20,7 @@ var myLineChart = new Chart(ctx, {
       pointHoverBackgroundColor: "rgba(2,117,216,1)",
       pointHitRadius: 50,
       pointBorderWidth: 2,
-      data: [70, 70, 70, 70, 70, 70],
+      data: [70, 72, 72, 70, 71, 68],
     }],
   },
   options: {
@@ -56,7 +56,7 @@ var ctx = document.getElementById("myAreaChart2");
 var myLineChart = new Chart(ctx, {
   type: 'line',
   data: {
-    labels: ["-50 min","-40 min","-30 min","-20 min","-10 min","Present"],
+    labels: ["-50 sec","-40 sec","-30 sec","-20 sec","-10 sec","Present"],
     datasets: [{
       label: "Sessions",
       lineTension: 0.3,
@@ -69,7 +69,7 @@ var myLineChart = new Chart(ctx, {
       pointHoverBackgroundColor: "rgba(2,117,216,1)",
       pointHitRadius: 50,
       pointBorderWidth: 2,
-      data: [70, 70, 70, 70, 70, 70],
+      data: [15,18,25,24,23,23],
     }],
   },
   options: {
@@ -87,8 +87,8 @@ var myLineChart = new Chart(ctx, {
       }],
       yAxes: [{
         ticks: {
-          min: 30,
-          max: 140,
+          min: 10,
+          max: 40,
           maxTicksLimit: 5
         },
         gridLines: {
@@ -105,7 +105,7 @@ var ctx = document.getElementById("myAreaChart3");
 var myLineChart = new Chart(ctx, {
   type: 'line',
   data: {
-    labels: ["-50 min","-40 min","-30 min","-20 min","-10 min","Present"],
+    labels: ["-50 sec","-40 sec","-30 sec","-20 sec","-10 sec","Present"],
     datasets: [{
       label: "Sessions",
       lineTension: 0.3,
@@ -118,7 +118,7 @@ var myLineChart = new Chart(ctx, {
       pointHoverBackgroundColor: "rgba(2,117,216,1)",
       pointHitRadius: 50,
       pointBorderWidth: 2,
-      data: [70, 70, 70, 70, 70, 70],
+      data: [24,25,23,35,30,40],
     }],
   },
   options: {
@@ -136,8 +136,8 @@ var myLineChart = new Chart(ctx, {
       }],
       yAxes: [{
         ticks: {
-          min: 30,
-          max: 140,
+          min: 10,
+          max: 50,
           maxTicksLimit: 5
         },
         gridLines: {
