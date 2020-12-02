@@ -1,28 +1,13 @@
 
             <div class="sb-sidenav-menu">
                 <div class="nav">
-                    <div class="sb-sidenav-menu-heading">Core</div>
+                    <div class="sb-sidenav-menu-heading"></div>
                     <a class="nav-link {% if 'index' in segment %} active {% endif %}" href="/">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <div class="sb-nav-link-icon"><img src="static/assets/img/profile_2.png" style = "width : 35px"alt=""></div>
                         User Status
                     </a>
-                    <div class="sb-sidenav-menu-heading">Interface</div>
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                        Layouts
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="/layout-static.html">Static Navigation</a>
-                            <a class="nav-link" href="/layout-sidenav-light.html">Light Sidenav</a>
-                        </nav>
-                    </div>
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                        Pages
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
+
+
                     <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
@@ -49,18 +34,10 @@
                             </div>
                         </nav>
                     </div>
-                    <div class="sb-sidenav-menu-heading">Addons</div>
-                    <a class="nav-link {% if 'charts' in segment %} active {% endif %}" href="/charts.html">
-                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                        Charts
-                    </a>
-                    <a class="nav-link {% if 'tables' in segment %} active {% endif %}" href="/tables.html">
-                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                        Tables
-                    </a>
+
                     <a class="nav-link {% if 'page-blank' in segment %} active {% endif %}" href="/page-blank.html">
-                        <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
-                        Page Blank
+                        <div class="sb-nav-link-icon"></div>
+                        <img src="static/assets/img/alert.png"style = "width : 33px; margin-left : -7px" alt="">&nbsp&nbspAlert Report
                     </a>
                     <a class="nav-link" href="{{ url_for('base_blueprint.logout') }}">
                         <div class="sb-nav-link-icon"><i class="fas fa-sign-out-alt"></i></div>
