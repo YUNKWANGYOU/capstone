@@ -68,7 +68,7 @@
             <div class="card mb-4">
                 <div class="card-header">
                     <i class="fas fa-table mr-1"></i>
-                    Alert Report
+                    User Status
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -93,6 +93,24 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('#dataTable2').DataTable({
+          ajax: {url: "/admin-api/get-table-data2",
+          type: "GET",
+          dataSrc: ''
+        },
+          columns: [
+            {data: "Name"},
+            {data: "User_ID"},
+            {data: "Heart_Rate"},
+            {data: "Temperature"}.
+            {data: "Humidity"},
+          ]
+        });
+      });
+
+    </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="/static/assets/demo/chart-area-demo2.js"></script>

@@ -202,13 +202,13 @@ def get_table_data2():
         d["Temperature"] = row[3]
         d["Humidity"] = row[4]
 
-        objects_list.append(d)
+        objects_list2.append(d)
 
 
     conn.commit()
     conn.close()
 
-    return jsonify(objects_list)
+    return jsonify(objects_list2)
 
 
 @blueprint.route('/admin-api/push-subscriptions', methods=['POST'])
