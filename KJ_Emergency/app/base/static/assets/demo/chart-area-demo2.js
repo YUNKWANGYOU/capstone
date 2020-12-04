@@ -16,6 +16,16 @@ $(document).ready(function () {
           }
           // Area Chart Example
           var ctx = document.getElementById("myAreaChart");
+
+          var str = document.getElementById("heart_rate");
+          str.innerHTML = heart_rate[0];
+
+          var str = document.getElementById("temperature");
+          str.innerHTML = temperature[0];
+
+          var str = document.getElementById("humidity");
+          str.innerHTML = humidity[0];
+
           var myLineChart = new Chart(ctx, {
             type: 'line',
             data: {

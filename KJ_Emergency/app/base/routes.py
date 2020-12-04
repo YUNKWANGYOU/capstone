@@ -164,6 +164,52 @@ def get_graph_data():
 
     return jsonify(objects_list)
 
+@blueprint.route('/admin-api/get-table-data', methods=['GET'])
+def get_table_data():
+    conn = mysql.connect()
+    curs = conn.cursor()
+    query = "SELECT User.Name,Emergency_Record.Time,Emergency_Record.Description FROM User,Emergency_Record WHERE User.MAC_Address = Emergency_Record.MAC_Address ORDER BY Emergency_Record.Emergency_ID DESC LIMIT 20;"
+    curs.execute(query)
+    rows = curs.fetchall()
+    objects_list = []
+    for row in rows:
+        d = OrderedDict()
+        d["Name"] = row[0]
+        d["Time"] = row[1]
+        d["Description"] = row[2]
+
+        objects_list.append(d)
+
+
+    conn.commit()
+    conn.close()
+
+    return jsonify(objects_list)
+
+@blueprint.route('/admin-api/get-table-data2', methods=['GET'])
+def get_table_data2():
+    conn = mysql.connect()
+    curs = conn.cursor()
+    query = "SELECT User.Name,User.User_ID,Sensor_Data.Heart_Rate,Sensor_Data.Temperature,Sensor_Data.Humidity FROM User,Sensor_Data WHERE User.MAC_Address = Sensor_Data.MAC_Address ORDER BY User.User_ID;"
+    curs.execute(query)
+    rows = curs.fetchall()
+    objects_list = []
+    for row in rows:
+        d = OrderedDict()
+        d["Name"] = row[0]
+        d["User_ID"] = row[1]
+        d["Heart_Rate"] = row[2]
+        d["Temperature"] = row[3]
+        d["Humidity"] = row[4]
+
+        objects_list.append(d)
+
+
+    conn.commit()
+    conn.close()
+
+    return jsonify(objects_list)
+
 
 @blueprint.route('/admin-api/push-subscriptions', methods=['POST'])
 def create_push_subscription():
