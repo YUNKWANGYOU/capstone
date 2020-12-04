@@ -193,7 +193,7 @@ def get_table_data2():
     query = "SELECT User.Name,User.User_ID,Sensor_Data.Heart_Rate,Sensor_Data.Temperature,Sensor_Data.Humidity FROM User,Sensor_Data WHERE User.MAC_Address = Sensor_Data.MAC_Address ORDER BY User.User_ID;"
     curs.execute(query)
     rows = curs.fetchall()
-    objects_list = []
+    objects_list2 = []
     for row in rows:
         d = OrderedDict()
         d["Name"] = row[0]
