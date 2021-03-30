@@ -186,8 +186,8 @@ def get_table_data():
 
     return jsonify(objects_list)
 
-@blueprint.route('/admin-api/get-table-data2', methods=['GET'])
-def get_table_data2():
+@blueprint.route('/admin-api/table-data', methods=['GET'])
+def table_data():
     conn = mysql.connect()
     curs = conn.cursor()
     query = "SELECT User.Name,User.User_ID,Sensor_Data.Heart_Rate,Sensor_Data.Temperature,Sensor_Data.Humidity FROM User,Sensor_Data WHERE User.MAC_Address = Sensor_Data.MAC_Address ORDER BY User.User_ID;"
